@@ -2,7 +2,8 @@ const { ApolloServer, gql } = require("apollo-server");
 const { buildFederatedSchema } = require("@apollo/federation");
 
 const typeDefs = gql`
-  extend type Query {
+  extend type Viewer @key(fields: "id") {
+    id: ID! @external
     topProducts(first: Int = 5): [Product]
   }
 
@@ -20,7 +21,7 @@ const resolvers = {
       return products.find(product => product.upc === object.upc);
     }
   },
-  Query: {
+  Viewer: {
     topProducts(_, args) {
       return products.slice(0, args.first);
     }

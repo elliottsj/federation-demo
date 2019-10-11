@@ -2,7 +2,8 @@ const { ApolloServer, gql } = require("apollo-server");
 const { buildFederatedSchema } = require("@apollo/federation");
 
 const typeDefs = gql`
-  extend type Query {
+  extend type Viewer @key(fields: "id") {
+    id: ID! @external
     me: User
   }
 
@@ -14,8 +15,9 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
-  Query: {
-    me() {
+  Viewer: {
+    me(viewer) {
+      console.info('viewer.id', viewer.id);
       return users[0];
     }
   },

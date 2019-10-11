@@ -16,7 +16,8 @@ const typeDefs = gql`
 
 const resolvers = {
   Viewer: {
-    me() {
+    me(viewer) {
+      console.info('viewer.id', viewer.id);
       return users[0];
     }
   },
